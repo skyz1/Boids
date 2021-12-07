@@ -38,7 +38,7 @@ function setup() {
   modeSelector.position(10, 10);
   modeSelector.option('Default');
   modeSelector.option('Reduced perception');
-  modeSelector.option('Follow a goal');
+  modeSelector.option('Follow a target');
   modeSelector.option('Avoid collisions');
   modeSelector.selected('Default');
   modeSelector.changed(modeChange);
@@ -51,7 +51,7 @@ function modeChange() {
   flock.length = 0
   obstacles.length = 0
   switch (modeSelector.value()) {
-    case 'Reduced Perception':
+    case 'Reduced perception':
       customSlider.style('visibility', 'visible');
       customP.html('Eyesight');
       customP.style('visibility', 'visible');
@@ -59,7 +59,7 @@ function modeChange() {
         flock.push(new ReducedPerceptionBoid());
       }
       break;
-    case 'Follow Goal':
+    case 'Follow a target':
       customSlider.style('visibility', 'visible');
       customP.html('Attraction');
       customP.style('visibility', 'visible');
@@ -67,7 +67,7 @@ function modeChange() {
         flock.push(new FollowGoalBoid());
       }
       break;
-    case 'Avoid Collisions':
+    case 'Avoid collisions':
       customSlider.style('visibility', 'hidden');
       customP.style('visibility', 'hidden');
       for (let i = 0; i < 100; i++) {
