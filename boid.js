@@ -36,7 +36,7 @@ class Boid {
     for (let other of boids) {
       let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
       if (other != this && d < radius) {
-        steering.sub(createVector(other.position.x-this.position.x, other.position.y-this.position.y).mult(radius-d))
+        steering.sub(createVector(other.position.x-this.position.x, other.position.y-this.position.y).setMag(radius-d))
       }
     }
     return steering.div(5);
