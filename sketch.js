@@ -1,7 +1,7 @@
 const flock = [];
 const obstacles = [];
 
-let alignSlider, cohesionSlider, separationSlider, customSlider, customP, modeSelector;
+let alignSlider, cohesionSlider, separationSlider, customSlider, customP, customSlider2, customP2, modeSelector;
 
 function setup() {
   createCanvas(800, 400);
@@ -34,12 +34,20 @@ function setup() {
   customP.style('font-family', 'Arial');
   customP.position(435, 410);
 
+  customSlider2 = createSlider(0, 2, 1, 0.02);
+  customSlider2.position(570, 450);
+  customP2 = createP('');
+  customP2.style('font-size', '16px');
+  customP2.style('font-family', 'Arial');
+  customP2.position(575, 410);
+
   modeSelector = createSelect();
   modeSelector.position(10, 10);
   modeSelector.option('Default');
   modeSelector.option('Reduced perception');
   modeSelector.option('Follow a target');
   modeSelector.option('Avoid collisions');
+  modeSelector.option('All at once');
   modeSelector.selected('Default');
   modeSelector.changed(modeChange);
 
@@ -55,6 +63,8 @@ function modeChange() {
       customSlider.style('visibility', 'visible');
       customP.html('Eyesight');
       customP.style('visibility', 'visible');
+      customSlider2.style('visibility', 'hidden');
+      customP2.style('visibility', 'hidden');
       for (let i = 0; i < 100; i++) {
         flock.push(new ReducedPerceptionBoid());
       }
@@ -63,6 +73,8 @@ function modeChange() {
       customSlider.style('visibility', 'visible');
       customP.html('Attraction');
       customP.style('visibility', 'visible');
+      customSlider2.style('visibility', 'hidden');
+      customP2.style('visibility', 'hidden');
       for (let i = 0; i < 100; i++) {
         flock.push(new FollowGoalBoid());
       }
@@ -70,8 +82,24 @@ function modeChange() {
     case 'Avoid collisions':
       customSlider.style('visibility', 'hidden');
       customP.style('visibility', 'hidden');
+      customSlider2.style('visibility', 'hidden');
+      customP2.style('visibility', 'hidden');
       for (let i = 0; i < 100; i++) {
         flock.push(new ObstacleAvoidanceBoid());
+      }
+      for (let i = 0; i < 30; i++) {
+        obstacles.push(new Obstacle());
+      }
+      break;
+    case 'All at once':
+      customSlider.style('visibility', 'visible');
+      customP.html('Perception');
+      customP.style('visibility', 'visible');
+      customSlider2.style('visibility', 'visible');
+      customP2.html('Attraction');
+      customP2.style('visibility', 'visible');
+      for (let i = 0; i < 100; i++) {
+        flock.push(new AllBoid());
       }
       for (let i = 0; i < 30; i++) {
         obstacles.push(new Obstacle());
@@ -80,6 +108,8 @@ function modeChange() {
     default:
       customSlider.style('visibility', 'hidden');
       customP.style('visibility', 'hidden');
+      customSlider2.style('visibility', 'hidden');
+      customP2.style('visibility', 'hidden');
       for (let i = 0; i < 100; i++) {
         flock.push(new Boid());
       }

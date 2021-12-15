@@ -147,3 +147,35 @@ class ObstacleAvoidanceBoid extends Boid {
     this.acceleration.add(this.avoid(obstacles));
   }
 }
+
+class AllBoid extends ObstacleAvoidanceBoid {
+  flock(boids) {
+    const visibleBoids = boids.filter((e) => {
+      const angle = this.velocity.angleBetween(createVector(e.position.x-this.position.x, e.position.y-this.position.y));
+      const d = customSlider.value() * distMult + distBase;
+      return e == this || dist(this.position.x, this.position.y, e.position.x, e.position.y) < d && angle < andleMult*QUARTER_PI && angle > -andleMult*QUARTER_PI;
+    })
+    super.flock(visibleBoids);
+    this.acceleration.add(this.follow().mult(customSlider2.value()));
+  }
+
+  follow() {
+    if (mouseIsPressed) {
+      return createVector(mouseX-this.position.x, mouseY-this.position.y).mult(dist(mouseX, this.position.x, mouseY, this.position.y) / 200).limit(1);
+    } else {
+      return createVector();
+    }
+  }
+
+  show() {
+    super.show();
+    const d = customSlider.value() * distMult + distBase;
+    strokeWeight(1);
+    stroke(128);
+    const direction1 = this.velocity.copy();
+    direction1.setMag(50);
+    const direction2 = direction1.copy().rotate(andleMult*QUARTER_PI);
+    direction1.rotate(-andleMult*QUARTER_PI);
+    arc(this.position.x, this.position.y, 2*d, 2*d, direction1.heading(), direction2.heading(), PIE);
+  }
+}
