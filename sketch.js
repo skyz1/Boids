@@ -55,7 +55,7 @@ function modeChange() {
       customSlider.style('visibility', 'visible');
       customP.html('Eyesight');
       customP.style('visibility', 'visible');
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         flock.push(new ReducedPerceptionBoid());
       }
       break;
